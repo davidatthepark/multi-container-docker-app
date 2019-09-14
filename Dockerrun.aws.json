@@ -1,0 +1,29 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "davidatthepark/multi-container-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "server",
+      "image": "davidatthepark/multi-container-server",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "davidatthepark/multi-container-worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "name": "nginx",
+      "image": "davidatthepark/multi-container-nginx",
+      "hostname": "nginx",
+      "essential": true
+    }
+  ]
+}
