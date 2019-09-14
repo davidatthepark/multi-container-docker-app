@@ -1,0 +1,23 @@
+language: generic  # might not be needed. could fail travis builds
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t davidatthepark/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true davidatthepark/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t davidatthepark/multi-container-client ./client
+  - docker build -t davidatthepark/multi-container-nginx ./nginx
+  - docker build -t davidatthepark/multi-container-server ./server
+  - docker build -t davidatthepark/multi-container-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push multi-container-client
+  - docker push multi-container-nginx
+  - docker push multi-container-server
+  - docker push multi-container-worker
