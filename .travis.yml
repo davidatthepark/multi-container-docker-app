@@ -21,3 +21,16 @@ after_success:
   - docker push davidatthepark/multi-container-nginx
   - docker push davidatthepark/multi-container-server
   - docker push davidatthepark/multi-container-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-1
+  app: test
+  env: Test-env
+  bucket_name: elasticbeanstalk-us-west-1-511995543734
+  bucket_path: test
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
